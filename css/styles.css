@@ -36,7 +36,11 @@ html {
 
 #currentInput {
     height: 60%;
-    padding-top: 3vmin;
+    padding-top: 2vmin;
+    line-height: 1.5em;
+    height: 3em;   
+    overflow: auto;
+    font-size: .9em;
 }
 
 #output {
@@ -48,6 +52,7 @@ html {
     display: grid;
     grid-gap: inherit;
     grid-template-columns: repeat(3, 1fr);
+    vertical-align: bottom;
 }
 
 .btn {
@@ -63,6 +68,7 @@ html {
 .fx {
     background-color: lightgreen;
 }
+
 #operate {
     background-color: lightsalmon;
 }
@@ -73,6 +79,8 @@ html {
     margin-top: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 10%;
+    width: 20vmin;
+    min-width: 100px;
+    max-width: 200px;
     background-color: lightcoral;
 }
