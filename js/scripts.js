@@ -24,6 +24,7 @@ const displayDiv = document.querySelector('#currentInput');
 const outputDiv = document.querySelector('#output');
 
 let currentInput = displayDiv.textContent;
+let evaluated = false;
 
 function clearCalculations() {
     displayDiv.textContent = '0';
@@ -38,6 +39,7 @@ function evaluate() {
     let input = displayDiv.textContent;
     output = evalInputExpr(input);
     outputDiv.textContent = output;
+    evaluated = true;
 }
 
 function evalInputExpr(str) {
@@ -53,10 +55,7 @@ function evalInputExpr(str) {
     return stringArray.join('');
 }
 
-
-
 const findNextOperation = (stringArray, operand) => stringArray.findIndex((a) => a == operand);
-
 
 function evalOperation (stringArray, operand) {
     let n;
@@ -84,7 +83,10 @@ function updateInputExpr(value) {
 }
 
 function newInput(e) {
-    // console.log(e);
+    if (evaluated == true) {
+        evaluated = false;
+        currentInput = Number(outputDiv.textContent).toPrecision(3);
+    }
     newVal = e.target.getAttribute('value');
     updateInputExpr(newVal);
 }
