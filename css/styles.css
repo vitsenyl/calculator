@@ -1,0 +1,68 @@
+html {
+    font-family: sans-serif;
+    font-size: 5vmin;
+    font-weight: 400;
+}
+
+.calculator {
+    margin: auto;
+    width: 60vmin;
+    height: 80vmin;
+    min-width: 300px;
+    min-height: 400px;
+    max-width: 600px;
+    max-height: 800px;
+
+    display: grid;
+    grid-gap: 4px;
+    grid-template-rows: 1.5fr;
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+        "display display display display"
+        "input input input fx"
+        "input input input fx"
+        "input input input fx"
+        "input input input fx";
+}
+
+.display {
+    grid-area: display;
+    background-color: lightskyblue;
+    min-height: 20vmin;
+    text-align: right;
+    padding-right: 5%;
+}
+
+#currentInput {
+    height: 60%;
+    padding-top: 3vmin;
+}
+
+#output {
+    font-size: .6rem;
+}
+
+.inputs {
+    grid-area: input;
+    display: grid;
+    grid-gap: inherit;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.btn {
+    padding-top: 4.5vmin;
+    width: auto;
+    background-color: gray;
+    text-align: center;
+}
+.input {
+    background-color: lightgray;
+}
+
+.fx {
+    background-color: lightgreen;
+}
+#operate {
+    background-color: lightsalmon;
+}
