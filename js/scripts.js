@@ -1,5 +1,5 @@
 // Defining basic math functions
-const add = (x,y) => x + y;
+const add = (x,y) => +x + +y;
 const subtract = (x,y) => x - y;
 const multiply = (x,y) => x * y;
 const divide = (x,y) => x / y;
@@ -18,10 +18,9 @@ const operate = (operator, x, y) => {
             return "Error!";
     }
 };
-const isOperator = (char) => (/[^0-9]/.test(char));
+const isOperator = (char) => (/[^0-9.]/.test(char));
 
 const displayDiv = document.querySelector('#currentInput');
-const operateDiv = document.querySelector('#operate');
 const outputDiv = document.querySelector('#output');
 
 let currentInput = displayDiv.textContent;
@@ -33,6 +32,42 @@ function clearCalculations() {
 }
 
 document.querySelector('.clear').onclick = clearCalculations;
+document.querySelector('#operate').onclick = evaluate;
+
+function evaluate() {
+    let input = displayDiv.textContent;
+    output = evalInputExpr(input);
+    outputDiv.textContent = output;
+}
+
+function evalInputExpr(str) {
+    //Evaluates the expression by breaking into fundamental expressions.
+
+    let operands = ['*','/','+','-']; // Set order of operations here
+
+    let stringArray = str.split(' ');
+
+    for (let i = 0; i < operands.length; i++) {
+        stringArray = evalOperation(stringArray, operands[i]);
+    }
+    return stringArray.join('');
+}
+
+
+
+const findNextOperation = (stringArray, operand) => stringArray.findIndex((a) => a == operand);
+
+
+function evalOperation (stringArray, operand) {
+    let n;
+    while ( findNextOperation(stringArray, operand) >= 0) {
+        n = findNextOperation(stringArray, operand);
+        stringArray.splice(n-1, 3, operate(operand, stringArray[n-1], stringArray[n+1]));
+    }
+    return stringArray;
+}
+
+
 
 function updateInputExpr(value) {
     let lastVal = currentInput.slice(-1);
@@ -48,13 +83,14 @@ function updateInputExpr(value) {
     displayDiv.textContent = currentInput;
 }
 
-function addInput(e) {
+function newInput(e) {
     // console.log(e);
     newVal = e.target.getAttribute('value');
     updateInputExpr(newVal);
 }
 
 // Sets up Callback Functions
-// window.addEventListener('keydown',addInput());
+// // window.addEventListener('keydown',addInput());
+
 const inputs = document.querySelectorAll('.input');
-inputs.forEach(input => input.addEventListener('click', addInput));
+inputs.forEach(input => input.addEventListener('click', newInput));
