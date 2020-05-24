@@ -34,7 +34,7 @@ html {
     padding-right: 5%;
 }
 
-#currentInput {
+#inputExpr {
     height: 60%;
     padding-top: 2vmin;
     line-height: 1.5em;
