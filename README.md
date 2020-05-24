@@ -2,7 +2,7 @@
 Calculator in HTML/CSS/JS for The Odin Project
 
 ## Thoughts
-This project was harder than I initially anticipated. Making sure the expression built and evaluated property were two separate challenges that took more than a little bit of thought. I'm proud to have come up with the algorithm to evaluate one unit operator (x operation y) without assistance or outside prompting, even if it may be implicitly obvious to more experienced developers.
+This project was harder than I initially anticipated. Making sure the expression built and evaluated property were two separate challenges that took more than a little bit of thought. I'm proud to have come up with the algorithm to successively evaluate one unit operation (x operation y) at a time without assistance or outside prompting, even if it may be implicitly obvious to more experienced developers.
 
 Overall I'm going to ask for some eyes on this project. I have a lot of room to improve and learn from this. 
 
