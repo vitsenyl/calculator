@@ -73,14 +73,27 @@ html {
     background-color: lightsalmon;
 }
 
-.clear {
+.aux {
     text-align: center;
     margin: auto;
-    margin-top: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 20vmin;
-    min-width: 100px;
-    max-width: 200px;
+    margin-top: 10px;
+
+    width: 60vmin;
+    min-width: 300px;
+    max-width: 600px;
+ 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: space-between;
+}
+
+#clear {
+    width: 35%;
+    background-color: lightcoral;
+}
+
+#delete{
+    width: 35%;
     background-color: lightcoral;
 }

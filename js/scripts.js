@@ -51,6 +51,16 @@ function clearCalculations() {
     inputExpr = '0';
 }
 
+function deleteEntry() {
+    evaluated = false; //Assume that after the calculation, the person wanted something different
+    
+    if (isOperator(inputExpr.slice(-1))) {
+        inputExpr = inputExpr.substring(0,inputExpr.length-2);
+    } else {
+        inputExpr = inputExpr.substring(0,inputExpr.length-1);
+    }
+    displayDiv.textContent = inputExpr;
+}
 
 
 function evaluate() {
@@ -118,7 +128,8 @@ function newInput(e) {
 // Sets up Callback Functions 
 // // window.addEventListener('keydown',addInput());
 
-document.querySelector('.clear').onclick = clearCalculations;
+document.querySelector('#delete').onclick = deleteEntry;
+document.querySelector('#clear').onclick = clearCalculations;
 document.querySelector('#operate').onclick = evaluate;
 const inputs = document.querySelectorAll('.input');
 inputs.forEach(input => input.addEventListener('click', newInput));
