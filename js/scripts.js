@@ -1,9 +1,53 @@
-// Defining basic math functions
+// Defining Globals
+const inputExpression = document.querySelector('#inputExpr');
+const output = document.querySelector('#output');
+let inputExpr = inputExpression.textContent;
+let evaluated = true;
+
+// Initializing Callbacks
+document.querySelector('#delete').onclick = deleteEntry;
+document.querySelector('#clear').onclick = clearCalculations;
+document.querySelector('#operate').onclick = evaluate;
+
+const inputs = document.querySelectorAll('.input');
+inputs.forEach(input => input.addEventListener('click', newInput));
+
+// Callback Functions
+
+function clearCalculations() {
+    inputExpression.textContent = '0';
+    output.textContent = '0';
+    inputExpr = '0';
+}
+
+function deleteEntry() {
+    evaluated = false; //Assume that after the calculation, the person wanted something different
+    
+    if (isOperator(inputExpr.slice(-1))) {
+        inputExpr = inputExpr.substring(0,inputExpr.length-2);
+    } else {
+        inputExpr = inputExpr.substring(0,inputExpr.length-1);
+    }
+    inputExpression.textContent = inputExpr;
+}
+
+function evaluate() {
+    let input = inputExpression.textContent;
+    output.textContent = evalInputExpr(input);
+    evaluated = true;
+}
+
+function newInput(e) {
+    newVal = e.target.getAttribute('value');
+    updateInputExpr(newVal);
+}
+
+// Utility functions
+
 const add = (x,y) => +x + +y;
 const subtract = (x,y) => x - y;
 const multiply = (x,y) => x * y;
 const divide = (x,y) => x / y;
-
 
 const validateOperand = (operator, x) => {
     if (isNaN(x) ) {
@@ -37,37 +81,8 @@ const operate = (operator, x, y) => {
             return "Error!";
     }
 };
+
 const isOperator = (char) => (/[^0-9.]/.test(char));
-
-const displayDiv = document.querySelector('#inputExpr');
-const outputDiv = document.querySelector('#output');
-
-let inputExpr = displayDiv.textContent;
-let evaluated = true;
-
-function clearCalculations() {
-    displayDiv.textContent = '0';
-    outputDiv.textContent = '0';
-    inputExpr = '0';
-}
-
-function deleteEntry() {
-    evaluated = false; //Assume that after the calculation, the person wanted something different
-    
-    if (isOperator(inputExpr.slice(-1))) {
-        inputExpr = inputExpr.substring(0,inputExpr.length-2);
-    } else {
-        inputExpr = inputExpr.substring(0,inputExpr.length-1);
-    }
-    displayDiv.textContent = inputExpr;
-}
-
-
-function evaluate() {
-    let input = displayDiv.textContent;
-    outputDiv.textContent = evalInputExpr(input);
-    evaluated = true;
-}
 
 function evalInputExpr(str) {
     //Evaluates the expression by breaking into fundamental expressions.
@@ -93,43 +108,74 @@ function evalOperation (stringArray, operator) {
     return stringArray;
 }
 
+function isType(value) {
+    if (value == '.') {
+        return 'dot';
+    } else if (value == '0') {
+        return 'zero';
+    } else if (/[1-9]/.test(value)) {
+        return 'number';
+    } else {
+        return 'operator';
+    }
+}
+
+function addDot(lastVal) {
+
+    if (/[.]/.test(inputExpr.split(' ').slice(-1))) {
+        // If this was previously a decimal value already
+        return lastVal;
+    } else if ( isOperator(lastVal)) {
+        return ' 0.';
+    } else {
+        return lastVal + '.';
+    }
+}
+
+function addOperator(lastVal, operator) {
+    if (isOperator(lastVal)) {
+        return operator;
+    } else {
+        return `${lastVal} ${operator}`;
+    }
+}
+
+function addNumber(lastVal, number) {
+    if (isOperator(lastVal)) {
+        return `${lastVal} ${number}`;
+    } else {
+        return (lastVal + number);
+    }
+}
+
+const truncate = (number, precision) => parseFloat(Number(number).toFixed(precision));
+
+function addAfterEval(value) {
+    if (isOperator(value)) {
+        inputExpr =  truncate((output.textContent),3) + ' ' + value;
+    } else if (value == '.') {
+        inputExpr = '0.';
+    } else {
+        inputExpr = value;
+    }
+}
+
 function updateInputExpr(value) {
     if (evaluated == true) {
+        addAfterEval(value);
         evaluated = false;
-        inputExpr = isOperator(value) ?         
-                truncate((outputDiv.textContent),3) + ' ' + value :
-                value;
-        displayDiv.textContent = inputExpr;
-        return;
-    }
-
-    let lastVal = inputExpr.slice(-1);
-
-    if (inputExpr == 0) {
-        inputExpr = `${isOperator(value)? ' ':''}${value}`;
-    } else if (isOperator(lastVal) && isOperator(value)) {
-        inputExpr = inputExpr.slice(0, -1) + value;
-    } else if (!isOperator(lastVal) && !isOperator(value)) {
-        inputExpr += value;
     } else {
-        inputExpr += ' ' + value;
+        const lastVal = inputExpr.slice(-1);
+        let stringToAppend = '';
+
+        if (value == '.') {
+            stringToAppend = addDot(lastVal);
+        } else if (isOperator(value)) {
+            stringToAppend = addOperator(lastVal, value);
+        } else {
+            stringToAppend = addNumber(lastVal, value);
+        }
+        inputExpr = inputExpr.slice(0, -1) + stringToAppend;
     }
-    displayDiv.textContent = inputExpr;
+    inputExpression.textContent = inputExpr;
 }
-
-const truncate = (number, precision) => (Math.round(Number(number).toFixed(precision) * 10**precision)/10**precision);
-
-function newInput(e) {
-
-    newVal = e.target.getAttribute('value');
-    updateInputExpr(newVal);
-}
-
-// Sets up Callback Functions 
-// // window.addEventListener('keydown',addInput());
-
-document.querySelector('#delete').onclick = deleteEntry;
-document.querySelector('#clear').onclick = clearCalculations;
-document.querySelector('#operate').onclick = evaluate;
-const inputs = document.querySelectorAll('.input');
-inputs.forEach(input => input.addEventListener('click', newInput));
