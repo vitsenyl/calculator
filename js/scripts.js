@@ -18,12 +18,21 @@ const operate = (operator, x, y) => {
             return "Error!";
     }
 };
-
-const display = document.querySelector('#currentInput');
-
 const isOperator = (char) => (/[^0-9]/.test(char));
 
-let currentInput = display.textContent;
+const displayDiv = document.querySelector('#currentInput');
+const operateDiv = document.querySelector('#operate');
+const outputDiv = document.querySelector('#output');
+
+let currentInput = displayDiv.textContent;
+
+function clearCalculations() {
+    displayDiv.textContent = '0';
+    outputDiv.textContent = '0';
+    currentInput = '0';
+}
+
+document.querySelector('.clear').onclick = clearCalculations;
 
 function updateInputExpr(value) {
     let lastVal = currentInput.slice(-1);
@@ -36,7 +45,7 @@ function updateInputExpr(value) {
     } else {
         currentInput += ' ' + value;
     }
-    display.textContent = currentInput;
+    displayDiv.textContent = currentInput;
 }
 
 function addInput(e) {
