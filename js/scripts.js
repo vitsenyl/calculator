@@ -66,11 +66,14 @@ function evalOperation (stringArray, operand) {
     return stringArray;
 }
 
+const truncate = (number, precision) => (Math.round(Number(number).toFixed(precision) * 10**precision)/10**precision);
 
 
 function updateInputExpr(value) {
+
     let lastVal = currentInput.slice(-1);
-    if (lastVal == 0) {
+
+    if (currentInput == 0) {
         currentInput = `${isOperator(value)? ' ':''}${value}`;
     } else if (isOperator(lastVal) && isOperator(value)) {
         currentInput = currentInput.slice(0, -1) + value;
@@ -85,7 +88,7 @@ function updateInputExpr(value) {
 function newInput(e) {
     if (evaluated == true) {
         evaluated = false;
-        currentInput = Number(outputDiv.textContent).toPrecision(3);
+        currentInput = truncate((outputDiv.textContent),3).toString();
     }
     newVal = e.target.getAttribute('value');
     updateInputExpr(newVal);
