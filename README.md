@@ -16,5 +16,6 @@ Overall I'm going to ask for some eyes on this project. I have a lot of room to 
 ## Lessons Learned
 1. Array.splice works on arrays, not strings. Silly really, but I tried to splice my strings on numerous occasions.
 2. Function expressions are extraordinarily convenient and can easily condense pieces of code. 
-3. Wrote my own truncate function before I found this [Stackoverflow post](https://stackoverflow.com/questions/7312468/javascript-round-to-a-number-of-decimal-places-but-strip-extra-zeros). Should have used parseFloat()...
+3. Can use parsefloat() with Number().toFloat to round to a certain precision without adding extra zeros at the end.
 4. Using viewport dimensions to size elements looks great until you hit a minimum size. I'll probably need to refactor into something else.
+5. Creating functions for each category of input to add made my code more readable, maintainable, and extensible.
